@@ -395,7 +395,7 @@ class OffPolicyAlgorithm(BaseAlgorithm):
             The two differs when the action space is not normalized (bounds are not [-1, 1]).
         """
         # Select action randomly or according to policy
-        if self.num_timesteps < learning_starts and not (self.use_sde and self.use_sde_at_warmup):
+        if self.num_timesteps < learning_starts and not (self.use_sde and self.use_sde_at_warmup) and not getattr(self, 'learning_starts_by_policy', False):
             # Warmup phase
             unscaled_action = np.array([self.action_space.sample() for _ in range(n_envs)])
         else:

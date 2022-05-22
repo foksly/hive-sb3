@@ -336,12 +336,16 @@ class TargetNetworkUpdateTracker:
 
 
 class HiveSAC(SAC):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, learning_starts_by_policy=False, **kwargs):
         super().__init__(*args, **kwargs)
         self.tn_update_tracker = TargetNetworkUpdateTracker(
             initial_opt_epoch=0, 
             update_interval=self.target_update_interval
         )
+        self.learning_starts_by_policy = learning_starts_by_policy
+
+        if learning_starts_by_policy:
+            print('*** INITIAL BUFFER WILL BE FILLED WITH SAMPLES GENERATED ACCORDING POLICY ***')
 
     def _create_aliases(self) -> None:
         super()._create_aliases()
